@@ -15,9 +15,7 @@ if(Boost_FOUND)
         tests/TestHelper.h
         tests/TestHelper.cpp
         GreatWall.h
-        GreatWall.cpp
-        BinarySearchTree.h
-        BinarySearchTree.cpp)
+        GreatWall.cpp)
 
     target_link_libraries(doTests Boost::unit_test_framework)
 endif()
@@ -25,6 +23,4 @@ endif()
 add_executable(main 
     main.cpp
     GreatWall.h
-    GreatWall.cpp
-    BinarySearchTree.h
-    BinarySearchTree.cpp)
+    GreatWall.cpp)
