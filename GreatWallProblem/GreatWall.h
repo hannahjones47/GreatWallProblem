@@ -6,7 +6,7 @@ class GreatWall {
     private:
 		string inputDataPath;
 		// container for unsorted bricks
-        // container for sortedBricks;
+        // container for sorted bricks;
 
     public:
         GreatWall(const std::string& filePath);
