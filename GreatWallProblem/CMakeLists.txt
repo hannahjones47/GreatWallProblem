@@ -11,8 +11,16 @@ find_package(Boost)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     add_executable(doTests 
+        GreatWallTests.cpp 
+        GreatWall.h
+        GreatWall.cpp
+        BinarySearchTree
+        BinarySearchTree.cpp)
+
+    add_executable(main 
         main.cpp
-        testTests.cpp 
+        GreatWall.h
+        GreatWall.cpp
         BinarySearchTree
         BinarySearchTree.cpp)
 endif()
