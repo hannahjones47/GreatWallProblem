@@ -15,10 +15,11 @@ void GreatWall::sortBricks() {
     // todo
 }
 
-const vector<string>& GreatWall::getSortedBricks() const {
-    return sortedBricks;
+void GreatWall::displaySortedBricks() const {
+    // todo
 }
 
-void GreatWall::displaySortedBricks() {
+string GreatWall::writeSortedBricksToFile() const {
     // todo
+    return "";
 }

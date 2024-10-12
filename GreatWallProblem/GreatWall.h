@@ -5,13 +5,13 @@ using namespace std;
 class GreatWall {
     private:
 		string inputDataPath;
-		vector<pair<string, string>> unsortedBricks;
-        vector<string> sortedBricks;
+		// container for unsorted bricks
+        // container for sortedBricks;
 
     public:
         GreatWall(const std::string& filePath);
 		void readData();
 		void sortBricks();
-		const vector<string>& getSortedBricks() const;
-        void displaySortedBricks();
+		string writeSortedBricksToFile() const;
+        void displaySortedBricks() const;
 };
