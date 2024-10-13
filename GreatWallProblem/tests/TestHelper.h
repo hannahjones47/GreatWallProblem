@@ -7,8 +7,8 @@ using namespace std;
 
 class TestHelper {
 public:
-    static void checkFileExists(const string& filePath);
-    static bool compareFiles(const string& filePath1, const string& filePath2);
+    static void requireFileExists(const string& filePath);
+    static bool areFileContentsEqual(const string& filePath1, const string& filePath2);
 };
 
 #endif // TESTHELPER_H

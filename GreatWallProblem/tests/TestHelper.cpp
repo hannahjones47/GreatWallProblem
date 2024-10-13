@@ -2,13 +2,13 @@
 #include <fstream>
 #include <boost/test/unit_test.hpp>
 
-void TestHelper::checkFileExists(const string& filePath) {
+void TestHelper::requireFileExists(const string& filePath) {
     ifstream file(filePath);
     BOOST_REQUIRE_MESSAGE(file.is_open(), "File not found: " << filePath);
     file.close();
 }
 
-bool TestHelper::compareFiles(const string& filePath1, const string& filePath2) {
+bool TestHelper::areFileContentsEqual(const string& filePath1, const string& filePath2) {
     ifstream file1(filePath1);
     ifstream file2(filePath2);
 
