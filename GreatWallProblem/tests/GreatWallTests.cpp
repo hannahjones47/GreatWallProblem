@@ -105,11 +105,12 @@ BOOST_AUTO_TEST_SUITE(UnitTests)
 BOOST_AUTO_TEST_CASE(ReadDataTest) {
     const string inputFilePath = testDataFilePath + "20/input-pairs-20.txt";
     GreatWall wall(inputFilePath);
-    wall.readData();
-    BOOST_ASSERT(false);
-    // todo assert that list of unsorted bricks has a length of 20
-    // todo assert that the the first brick is mgR,fYI
-    // todo assert that the the last brick is BSC,yxv
+    
+    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().size(), 19);
+    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("mgR"), "fYI"); // first value from input file
+    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("LYd"), "SXW"); // middle value from input file
+    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("BSC"), "yxv"); // last value from input file
+    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().lookup("nonexistent"), nullptr); // nonexistent value
 }
 
 BOOST_AUTO_TEST_CASE(SortBricksTest) {

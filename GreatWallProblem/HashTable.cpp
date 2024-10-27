@@ -71,7 +71,7 @@ void HashTable::insert(string key, string value)
     }
 }
 
-string *HashTable::lookup(string key) // returns value of given key
+string *HashTable::lookup(string key) const // returns value of given key
 {
     unsigned int hashIndex = hash(key);
     Bucket* entry = arr_[hashIndex];
@@ -84,12 +84,12 @@ string *HashTable::lookup(string key) // returns value of given key
     return nullptr;
 }
 
-unsigned int HashTable::size()
+unsigned int HashTable::size() const
 {
     return size_;
 }
 
-unsigned int HashTable::hash(string key)
+unsigned int HashTable::hash(string key) const
 {
     std::hash<string> hasher;
     return hasher(key) % capacity_;

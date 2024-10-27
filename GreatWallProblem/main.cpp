@@ -9,7 +9,7 @@ int main() {
     cout << "Hello, World!" << endl;
 
     GreatWall wall("/Users/hannahjones/Git/GreatWallProblem/GreatWallProblem/GreatWallProblem/tests/TestData/20/input-pairs-20.txt"); // todo pass by console param
-    wall.unsortedBricks.display();
+    wall.getUnsortedBricks().display();
     cout << "Goodbye, World!" << endl;
     return 0;
 }

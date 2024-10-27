@@ -16,7 +16,7 @@ class HashTable {
     Bucket** arr_;
     unsigned int capacity_;
     unsigned int size_;
-    unsigned int hash(string);
+    unsigned int hash(string) const;
     float loadFactor();
     void rehash();
   
@@ -24,8 +24,8 @@ class HashTable {
     HashTable(int = 10);
     ~HashTable();
     void insert(string, string);
-    string* lookup(string);
-    unsigned int size();
+    string* lookup(string) const;
+    unsigned int size() const;
     void display() const; 
 };
 
