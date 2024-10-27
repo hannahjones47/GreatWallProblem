@@ -106,6 +106,7 @@ BOOST_AUTO_TEST_CASE(ReadDataTest) {
     const string inputFilePath = testDataFilePath + "20/input-pairs-20.txt";
     GreatWall wall(inputFilePath);
     wall.readData();
+    BOOST_ASSERT(false);
     // todo assert that list of unsorted bricks has a length of 20
     // todo assert that the the first brick is mgR,fYI
     // todo assert that the the last brick is BSC,yxv
@@ -116,6 +117,7 @@ BOOST_AUTO_TEST_CASE(SortBricksTest) {
     GreatWall wall(inputFilePath);
     wall.readData();
     wall.sortBricks();
+    BOOST_ASSERT(false);
     // todo assert that the list of sorted bricks has a length of 20
     // todo assert that the first brick is XLM
     // todo assert that the last brick is Ohe
@@ -131,6 +133,7 @@ BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest) {
     streambuf* oldCout = cout.rdbuf(buffer.rdbuf());
     wall.displaySortedBricks();
     cout.rdbuf(oldCout);
+    BOOST_ASSERT(false);
     
     // todo assert that the output is correct
 }
