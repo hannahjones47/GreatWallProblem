@@ -11,22 +11,17 @@ struct Bucket {
 
 class HashTable {
   public:
+    HashTable(int = 10);
+    ~HashTable();
     void insert(int, string);
     string* lookup(int);
-    void remove(int); 
-    HashTable(int = 10);
-    HashTable(const HashTable &);
     unsigned int size();
-    ~HashTable();
-    HashTable & operator=(const HashTable&);
 
   private:
-    unsigned int capacity;
+    unsigned int capacity_;
     unsigned int size_;
-    Bucket** arr;
+    Bucket** arr_;
     unsigned int hash(int);
     float loadFactor();
     void rehash();
-    Bucket *deepCopy(Bucket*);
-    void copy(const HashTable &);
 };
