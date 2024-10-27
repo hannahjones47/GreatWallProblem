@@ -95,9 +95,9 @@ unsigned int HashTable::hash(string key) const
     return hasher(key) % capacity_;
 }
 
-float HashTable::loadFactor()
+float HashTable::loadFactor() const 
 {
-    return size_ / capacity_;
+    return static_cast<float>(size_) / static_cast<float>(capacity_);
 }
 
 void HashTable::rehash() {

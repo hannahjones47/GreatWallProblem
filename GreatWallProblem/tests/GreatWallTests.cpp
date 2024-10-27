@@ -1,7 +1,5 @@
 #define BOOST_TEST_MODULE GreatWallTests
-#define BOOST_TEST_DYN_LINK
 #include <boost/test/included/unit_test.hpp>
-#include <boost/test/unit_test.hpp>
 #include "../GreatWall.h"
 #include "TestHelper.h"
 #include <fstream>

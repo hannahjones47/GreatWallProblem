@@ -12,6 +12,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     add_executable(doTests 
         tests/GreatWallTests.cpp 
+        tests/HashTableTests.cpp
         tests/TestHelper.h
         tests/TestHelper.cpp
         GreatWall.h

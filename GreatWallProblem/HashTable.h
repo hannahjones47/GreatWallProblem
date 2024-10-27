@@ -17,7 +17,6 @@ class HashTable {
     unsigned int capacity_;
     unsigned int size_;
     unsigned int hash(string) const;
-    float loadFactor();
     void rehash();
   
   public:
@@ -26,6 +25,7 @@ class HashTable {
     void insert(string, string);
     string* lookup(string) const;
     unsigned int size() const;
+    float loadFactor() const;
     void display() const; 
 };
 
