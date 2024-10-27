@@ -16,8 +16,7 @@ void runIntegrationTest(const string testCaseName, const string inputFilePath, c
     TestHelper::requireFileExists(testDataFilePath + inputFilePath);
     TestHelper::requireFileExists(testDataFilePath + expectedOutputFilePath);
 
-    GreatWall wall(inputFilePath);
-    wall.readData();
+    GreatWall wall(testDataFilePath + inputFilePath);
     wall.sortBricks();
     string actualOutputFilePath = wall.writeSortedBricksToFile();
     // todo delete file.
