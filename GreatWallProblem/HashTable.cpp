@@ -1,18 +1,19 @@
 #include "HashTable.h"
 #include <iostream>
+#include <functional> 
 
 #define LF_THRESHOLD .7
 
-Bucket::Bucket(int k, string v, Bucket *n)
+Bucket::Bucket(string k, string v, Bucket *n)
 {
     key = k;
     value = v;
     next = n;
 }
 
-HashTable::HashTable(int c)
+HashTable::HashTable(int capacity)
 {
-    capacity_ = c;
+    capacity_ = capacity;
     arr_ = new Bucket *[capacity_];
     size_ = 0;
 }
@@ -32,16 +33,16 @@ HashTable::~HashTable()
     delete[] arr_;
 }
 
-void HashTable::insert(int k, string v)
+void HashTable::insert(string key, string value)
 {
     if (loadFactor() > LF_THRESHOLD)
         rehash();
 
-    unsigned int i = hash(k);
-    Bucket *p = arr_[i];
+    unsigned int hashIndex = hash(key);
+    Bucket *p = arr_[hashIndex];
     if (p == nullptr)
     {
-        arr_[i] = new Bucket(k, v);
+        arr_[hashIndex] = new Bucket(key, value);
         size_++;
     }
     else
@@ -50,9 +51,9 @@ void HashTable::insert(int k, string v)
         Bucket *b = nullptr;
         while (p != nullptr && !inserted)
         {
-            if (p->key == k)
+            if (p->key == key)
             {
-                p->value = v;
+                p->value = value;
                 inserted = true;
             }
             else
@@ -63,32 +64,24 @@ void HashTable::insert(int k, string v)
         }
         if (!inserted)
         {
-            p = new Bucket(k, v);
+            p = new Bucket(key, value);
             b->next = p;
             size_++;
         }
     }
 }
 
-string *HashTable::lookup(int k)
+string *HashTable::lookup(string key) // returns value of given key
 {
-    unsigned int i = hash(k);
-    string *r = nullptr;
-    Bucket *p = arr_[i];
-    bool found = false;
-    while (p != nullptr && !found)
-    {
-        if (p->key == k)
-        {
-            r = &(p->value);
-            found = true;
+    unsigned int hashIndex = hash(key);
+    Bucket* entry = arr_[hashIndex];
+    while (entry != nullptr) {
+        if (entry->key == key) {
+            return &(entry->value);
         }
-        else
-        {
-            p = p->next;
-        }
+        entry = entry->next;
     }
-    return r;
+    return nullptr;
 }
 
 unsigned int HashTable::size()
@@ -96,9 +89,10 @@ unsigned int HashTable::size()
     return size_;
 }
 
-unsigned int HashTable::hash(int k)
+unsigned int HashTable::hash(string key)
 {
-    return (k % capacity_);
+    std::hash<string> hasher;
+    return hasher(key) % capacity_;
 }
 
 float HashTable::loadFactor()
@@ -106,24 +100,34 @@ float HashTable::loadFactor()
     return size_ / capacity_;
 }
 
-void HashTable::rehash()
-{
-    unsigned int oldCapacity = capacity_;
-    Bucket **old_arr = arr_;
+void HashTable::rehash() {
+    int oldCapacity = capacity_;
+    capacity_ *= 2;
+    Bucket** oldArr = arr_;
+    arr_ = new Bucket*[capacity_];
+    for (int i = 0; i < capacity_; ++i) {
+        arr_[i] = nullptr;
+    }
 
-    capacity_ = capacity_ * 2;
-    arr_ = new Bucket *[capacity_];
-
-    for (int i = 0; i < oldCapacity; i++)
-    {
-        Bucket *p = old_arr[i];
-        while (p != nullptr)
-        {
-            insert(p->key, p->value);
-            Bucket *t = p;
-            p = p->next;
-            delete t;
+    size_ = 0;
+    for (int i = 0; i < oldCapacity; ++i) {
+        Bucket* entry = oldArr[i];
+        while (entry != nullptr) {
+            insert(entry->key, entry->value);
+            Bucket* prev = entry;
+            entry = entry->next;
+            delete prev;
         }
     }
-    delete[] old_arr;
+    delete[] oldArr;
+}
+
+void HashTable::display() const {
+    for (int i = 0; i < capacity_; ++i) {
+        Bucket* entry = arr_[i];
+        while (entry != nullptr) {
+            cout << "Key: " << entry->key << ", Value: " << entry->value << endl;
+            entry = entry->next;
+        }
+    }
 }

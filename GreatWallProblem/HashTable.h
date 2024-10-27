@@ -1,27 +1,32 @@
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
+
 #include <string>
 using namespace std;
 
 struct Bucket {
-    int key;
+    string key;
     string value;
     Bucket *next;
-
-    Bucket(int, string, Bucket* = nullptr);
+    Bucket(string, string, Bucket* = nullptr);
 };
 
 class HashTable {
+  private:
+    Bucket** arr_;
+    unsigned int capacity_;
+    unsigned int size_;
+    unsigned int hash(string);
+    float loadFactor();
+    void rehash();
+  
   public:
     HashTable(int = 10);
     ~HashTable();
-    void insert(int, string);
-    string* lookup(int);
+    void insert(string, string);
+    string* lookup(string);
     unsigned int size();
-
-  private:
-    unsigned int capacity_;
-    unsigned int size_;
-    Bucket** arr_;
-    unsigned int hash(int);
-    float loadFactor();
-    void rehash();
+    void display() const; 
 };
+
+#endif // HASHTABLE_H
