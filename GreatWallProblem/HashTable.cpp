@@ -68,16 +68,14 @@ void HashTable::insert(string key, string value) {
     }
 }
 
-string* HashTable::lookup(string symbol, bool isNorth) const {
+string* HashTable::lookup(string symbol) const {
     unsigned int index = hash(symbol); 
     Bucket* bucket = arr_[index];
 
     while (bucket != nullptr) {
-        if (isNorth && bucket->key == symbol) {
+        if (bucket->key == symbol) {
             return new string(bucket->value); 
-        } else if (!isNorth && bucket->value == symbol) {
-            return new string(bucket->key); 
-        }
+        } 
         bucket = bucket->next;
     }
     return nullptr;

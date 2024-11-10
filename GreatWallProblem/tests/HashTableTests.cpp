@@ -12,11 +12,11 @@ BOOST_AUTO_TEST_CASE(InsertionTest) {
     table.insert("key1", "value1");
     table.insert("key2", "value2");
 
-    const string* value1 = table.lookup("key1", true);
+    const string* value1 = table.lookup("key1");
     BOOST_CHECK(value1 != nullptr);
     BOOST_CHECK_EQUAL(*value1, "value1");
 
-    const string* value2 = table.lookup("key2", true);
+    const string* value2 = table.lookup("key2");
     BOOST_CHECK(value2 != nullptr);
     BOOST_CHECK_EQUAL(*value2, "value2");
 }
@@ -25,11 +25,11 @@ BOOST_AUTO_TEST_CASE(LookupTest) {
     HashTable table;
     table.insert("key1", "value1");
 
-    const string* value = table.lookup("key1", true);
+    const string* value = table.lookup("key1");
     BOOST_CHECK(value != nullptr);
     BOOST_CHECK_EQUAL(*value, "value1");
 
-    const string* nonExistentValue = table.lookup("nonexistent", true);
+    const string* nonExistentValue = table.lookup("nonexistent");
     BOOST_CHECK(nonExistentValue == nullptr);
 }
 
@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(DuplicateKeyTest) {
     table.insert("key1", "value1");
     table.insert("key1", "value2"); 
 
-    const string* value = table.lookup("key1", true);
+    const string* value = table.lookup("key1");
     BOOST_CHECK(value != nullptr);
     BOOST_CHECK_EQUAL(*value, "value2"); 
 }
@@ -49,15 +49,15 @@ BOOST_AUTO_TEST_CASE(RehashTest) {
     table.insert("key2", "value2");
     table.insert("key3", "value3");
 
-    const string* value1 = table.lookup("key1", true);
+    const string* value1 = table.lookup("key1");
     BOOST_CHECK(value1 != nullptr);
     BOOST_CHECK_EQUAL(*value1, "value1");
 
-    const string* value2 = table.lookup("key2", true);
+    const string* value2 = table.lookup("key2");
     BOOST_CHECK(value2 != nullptr);
     BOOST_CHECK_EQUAL(*value2, "value2");
 
-    const string* value3 = table.lookup("key3", true);
+    const string* value3 = table.lookup("key3");
     BOOST_CHECK(value3 != nullptr);
     BOOST_CHECK_EQUAL(*value3, "value3");
 }

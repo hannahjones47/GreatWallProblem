@@ -12,12 +12,12 @@ void DualHashTable::insert(const std::string& north, const std::string& south) {
     size_++;
 }
 
-std::string* DualHashTable::lookupEast(const std::string& north) const {
-    return eastTravelTable.lookup(north, true);
+std::string* DualHashTable::lookupEast(const string& north) const {
+    return eastTravelTable.lookup(north);
 }
 
-std::string* DualHashTable::lookupWest(const std::string& south) const {
-    return westTravelTable.lookup(south, false);
+std::string* DualHashTable::lookupWest(const string& south) const {
+    return westTravelTable.lookup(south);
 }
 
 Bucket* DualHashTable::getFirstBucket() const {
