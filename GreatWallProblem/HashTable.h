@@ -24,7 +24,7 @@ class HashTable {
     HashTable(int = 10);
     ~HashTable();
     void insert(string, string);
-    string* lookup(string, bool) const;
+    string* lookup(string) const;
     unsigned int size() const;
     float loadFactor() const;
     void display() const; 

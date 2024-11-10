@@ -34,45 +34,27 @@ void GreatWall::readData()
 void GreatWall::sortBricks() {
     if (unsortedBricks.getFirstBucket() == nullptr) throw std::runtime_error("No bricks to sort.");
 
-    // Step 1: Start with any brick (arbitrary start point)
     Bucket* startBucket = unsortedBricks.getFirstBucket();
     if (startBucket == nullptr) throw std::runtime_error("HashTable is empty.");
 
     string startNorthSymbol = startBucket->key;
     string startSouthSymbol = startBucket->value;
 
-    // Step 2: Eastward Traversal (use the eastTravelTable)
-    sortedBricks.push_back(startNorthSymbol);  // Start by adding the north symbol
-    sortedBricks.push_back(startSouthSymbol);  // Then add the south symbol
+    sortedBricks.push_back(startNorthSymbol);  
+    sortedBricks.push_back(startSouthSymbol);  
 
     string currentSymbol = startSouthSymbol;
     
-    // Traverse eastward by looking for the next brick with the current south symbol
     while (string* nextSouthSymbol = unsortedBricks.lookupEast(currentSymbol)) {
-        sortedBricks.push_back(*nextSouthSymbol);  // Add the next south symbol
-        currentSymbol = *nextSouthSymbol;  // Move to the next symbol
+        sortedBricks.push_back(*nextSouthSymbol);  
+        currentSymbol = *nextSouthSymbol; 
     }
 
-    // todo cant i use this same while loop?
+    currentSymbol = startNorthSymbol; 
 
-    // Step 3: Westward Traversal (use the westTravelTable)
-    currentSymbol = startNorthSymbol;  // Reset to starting point for westward traversal
-
-    while (true) {
-        bool found = false;
-
-        // Search for the brick that has currentSymbol as its south symbol in the westTravelTable
-        std::string* westBrickNorthSymbol = unsortedBricks.lookupWest(currentSymbol);
-        if (westBrickNorthSymbol != nullptr) {
-            sortedBricks.push_front(*westBrickNorthSymbol);  // Add the north symbol to the front
-            currentSymbol = *westBrickNorthSymbol;  // Move west to the new brick
-            found = true;
-        }
-
-        if (!found) {
-            // We have reached the westernmost brick
-            break;
-        }
+    while (string* nextNorthSymbol = unsortedBricks.lookupWest(currentSymbol)) {
+        sortedBricks.push_front(*nextNorthSymbol);  
+        currentSymbol = *nextNorthSymbol; 
     }
 }
 

@@ -114,22 +114,22 @@ BOOST_AUTO_TEST_CASE(ReadDataTest) {
     BOOST_CHECK_EQUAL(wall.getUnsortedBricks().getEastTravelTable().size(), 20);
 
     // Check that the first brick is "mgR,fYI"
-    const std::string* firstValue = wall.getUnsortedBricks().getEastTravelTable().lookup("mgR", true);
+    const std::string* firstValue = wall.getUnsortedBricks().getEastTravelTable().lookup("mgR");
     BOOST_CHECK(firstValue != nullptr);
     BOOST_CHECK_EQUAL(*firstValue, "fYI");
 
     // Check that a middle brick is "LYd,SXW"
-    const std::string* middleValue = wall.getUnsortedBricks().getEastTravelTable().lookup("LYd", true);
+    const std::string* middleValue = wall.getUnsortedBricks().getEastTravelTable().lookup("LYd");
     BOOST_CHECK(middleValue != nullptr);
     BOOST_CHECK_EQUAL(*middleValue, "SXW");
 
     // Check that the last brick is "BSC,yxv"
-    const std::string* lastValue = wall.getUnsortedBricks().getEastTravelTable().lookup("BSC", true);
+    const std::string* lastValue = wall.getUnsortedBricks().getEastTravelTable().lookup("BSC");
     BOOST_CHECK(lastValue != nullptr);
     BOOST_CHECK_EQUAL(*lastValue, "yxv");
 
     // Check for non-existent keys
-    const std::string* nonExistentValue = wall.getUnsortedBricks().getEastTravelTable().lookup("nonexistent", true);
+    const std::string* nonExistentValue = wall.getUnsortedBricks().getEastTravelTable().lookup("nonexistent");
     BOOST_CHECK(nonExistentValue == nullptr);
 }
 
