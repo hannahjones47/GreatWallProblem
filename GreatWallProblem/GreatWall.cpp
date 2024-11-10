@@ -11,15 +11,14 @@ GreatWall::GreatWall(const string& filePath) : inputDataPath(filePath), sorted(f
 
 void GreatWall::readData() {
     ifstream inputFile(inputDataPath);
-    if (!inputFile.is_open()) 
-        throw runtime_error("Unable to open file: " + inputDataPath);
+
+    if (!inputFile.is_open()) throw runtime_error("Unable to open file: " + inputDataPath);
     
     string line;
     while (getline(inputFile, line)) 
     {
         size_t commaPosition = line.find(',');
-        if (commaPosition == string::npos) 
-            throw runtime_error("Invalid input file format");
+        if (commaPosition == string::npos) throw runtime_error("Invalid input file format");
         
         string north = line.substr(0, commaPosition);
         string south = line.substr(commaPosition + 1);
