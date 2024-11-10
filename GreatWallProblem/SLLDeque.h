@@ -12,6 +12,7 @@ public:
     void push_front(const std::string& text); 
     void push_back(const std::string& text);  
     void display(std::ostream& out) const;
+    int getSize() const;
 
 private:
     struct Node {
@@ -20,7 +21,7 @@ private:
 
         Node(const std::string& text) : data(text), next(nullptr) {}
     };
-
+    int size;
     Node* head; 
     Node* tail; 
 };

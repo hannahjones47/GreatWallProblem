@@ -20,6 +20,8 @@ if(Boost_FOUND)
         GreatWall.cpp
         HashTable.h
         HashTable.cpp
+        DualHashTable.h
+        DualHashTable.cpp
         SLLDeque.h
         SLLDeque.cpp)
 
@@ -32,5 +34,7 @@ add_executable(main
     GreatWall.cpp
     HashTable.h
     HashTable.cpp
+    DualHashTable.h
+    DualHashTable.cpp
     SLLDeque.h
     SLLDeque.cpp)

@@ -4,11 +4,11 @@
 
 #define LF_THRESHOLD .7
 
-Bucket::Bucket(string k, string v, Bucket *n)
+Bucket::Bucket(string north, string south, Bucket *nextBucket)
 {
-    key = k;
-    value = v;
-    next = n;
+    northSymbol = north;
+    southSymbol = south;
+    next = nextBucket;
 }
 
 HashTable::HashTable(int capacity)
@@ -33,55 +33,55 @@ HashTable::~HashTable()
     delete[] arr_;
 }
 
-void HashTable::insert(string key, string value)
-{
-    if (loadFactor() > LF_THRESHOLD)
+void HashTable::insert(string north, string south) {
+    if (loadFactor() > LF_THRESHOLD) {
         rehash();
+    }
 
-    unsigned int hashIndex = hash(key);
-    Bucket *p = arr_[hashIndex];
-    if (p == nullptr)
-    {
-        arr_[hashIndex] = new Bucket(key, value);
+    unsigned int hashIndex = hash(north);  // Use north symbol to hash
+    Bucket* p = arr_[hashIndex];
+
+    if (p == nullptr) {
+        arr_[hashIndex] = new Bucket(north, south);  
         size_++;
 
-        if (firstBucket_ == nullptr) firstBucket_ = arr_[hashIndex];
-    }
-    else
-    {
+        if (firstBucket_ == nullptr) 
+            firstBucket_ = arr_[hashIndex];
+    } else {
         bool inserted = false;
-        Bucket *b = nullptr;
-        while (p != nullptr && !inserted)
-        {
-            if (p->key == key)
-            {
-                p->value = value;
+        Bucket* b = nullptr;
+
+        // Traverse the bucket to see if we already have the key
+        while (p != nullptr && !inserted) {
+            if (p->northSymbol == north) {
+                p->southSymbol = south;  // Ensure both north and south symbols are set
                 inserted = true;
-            }
-            else
-            {
+            } else {
                 b = p;
                 p = p->next;
             }
         }
-        if (!inserted)
-        {
-            p = new Bucket(key, value);
+
+        if (!inserted) {
+            p = new Bucket(north, south);
             b->next = p;
             size_++;
         }
     }
 }
 
-string *HashTable::lookup(string key) const // returns value of given key
-{
-    unsigned int hashIndex = hash(key);
-    Bucket* entry = arr_[hashIndex];
-    while (entry != nullptr) {
-        if (entry->key == key) {
-            return &(entry->value);
+string* HashTable::lookup(string symbol, bool isNorth) const {
+    unsigned int index = hash(symbol);  // Still use north's hash for simplicity
+    Bucket* bucket = arr_[index];
+
+    while (bucket != nullptr) {
+        // If looking for north, return south, if looking for south, return north
+        if (isNorth && bucket->northSymbol == symbol) {
+            return new string(bucket->southSymbol);  // Return the south symbol
+        } else if (!isNorth && bucket->southSymbol == symbol) {
+            return new string(bucket->northSymbol);  // Return the north symbol
         }
-        entry = entry->next;
+        bucket = bucket->next;
     }
     return nullptr;
 }
@@ -115,7 +115,7 @@ void HashTable::rehash() {
     for (int i = 0; i < oldCapacity; ++i) {
         Bucket* entry = oldArr[i];
         while (entry != nullptr) {
-            insert(entry->key, entry->value);
+            insert(entry->northSymbol, entry->southSymbol);
             Bucket* prev = entry;
             entry = entry->next;
             delete prev;
@@ -128,7 +128,7 @@ void HashTable::display() const {
     for (int i = 0; i < capacity_; ++i) {
         Bucket* entry = arr_[i];
         while (entry != nullptr) {
-            cout << "Key: " << entry->key << ", Value: " << entry->value << endl;
+            cout << "North: " << entry->northSymbol << ", South: " << entry->southSymbol << endl;
             entry = entry->next;
         }
     }

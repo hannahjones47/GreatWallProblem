@@ -102,12 +102,29 @@ BOOST_AUTO_TEST_SUITE(UnitTests)
 BOOST_AUTO_TEST_CASE(ReadDataTest) {
     const string inputFilePath = testDataFilePath + "20/input-pairs-20.txt";
     GreatWall wall(inputFilePath);
-    
-    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().size(), 19);
-    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("mgR"), "fYI"); // first value from input file
-    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("LYd"), "SXW"); // middle value from input file
-    BOOST_CHECK_EQUAL(*wall.getUnsortedBricks().lookup("BSC"), "yxv"); // last value from input file
-    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().lookup("nonexistent"), nullptr); // nonexistent value
+    wall.readData();
+
+    // Check that the list of unsorted bricks has a length of 20
+    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().getEastTravelTable().size(), 20);
+
+    // Check that the first brick is "mgR,fYI"
+    const std::string* firstValue = wall.getUnsortedBricks().getEastTravelTable().lookup("mgR", true);
+    BOOST_CHECK(firstValue != nullptr);
+    BOOST_CHECK_EQUAL(*firstValue, "fYI");
+
+    // Check that a middle brick is "LYd,SXW"
+    const std::string* middleValue = wall.getUnsortedBricks().getEastTravelTable().lookup("LYd", true);
+    BOOST_CHECK(middleValue != nullptr);
+    BOOST_CHECK_EQUAL(*middleValue, "SXW");
+
+    // Check that the last brick is "BSC,yxv"
+    const std::string* lastValue = wall.getUnsortedBricks().getEastTravelTable().lookup("BSC", true);
+    BOOST_CHECK(lastValue != nullptr);
+    BOOST_CHECK_EQUAL(*lastValue, "yxv");
+
+    // Check for non-existent keys
+    const std::string* nonExistentValue = wall.getUnsortedBricks().getEastTravelTable().lookup("nonexistent", true);
+    BOOST_CHECK(nonExistentValue == nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(SortBricksTest) {
@@ -115,7 +132,9 @@ BOOST_AUTO_TEST_CASE(SortBricksTest) {
     GreatWall wall(inputFilePath);
     wall.readData();
     wall.sortBricks();
+    wall.getSortedBricks().display(cout);
     BOOST_ASSERT(false);
+    //BOOST_CHECK_EQUAL(*wall.getSortedBricks().size(), 20);
     // todo assert that the list of sorted bricks has a length of 20
     // todo assert that the first brick is XLM
     // todo assert that the last brick is Ohe
