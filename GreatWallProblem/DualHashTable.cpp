@@ -1,10 +1,9 @@
-// DualHashTable.cpp
-
 #include "DualHashTable.h"
 #include <iostream>
 
-DualHashTable::DualHashTable(int capacity)
-    : eastTravelTable(capacity), westTravelTable(capacity) {}
+DualHashTable::DualHashTable(int capacity) : eastTravelTable(capacity), westTravelTable(capacity) {
+    size_ = 0;
+}
 
 void DualHashTable::insert(const std::string& north, const std::string& south) {
     eastTravelTable.insert(north, south);

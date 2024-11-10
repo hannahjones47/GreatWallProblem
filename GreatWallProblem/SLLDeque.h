@@ -21,6 +21,7 @@ public:
     void display(std::ostream& out) const;
     int getSize() const;
     Node* getHead() const;
+    Node* getTail() const;
 
 private:
     int size;

@@ -107,58 +107,68 @@ BOOST_AUTO_TEST_SUITE(UnitTests)
 
 BOOST_AUTO_TEST_CASE(ReadDataTest) {
     const string inputFilePath = testDataFilePath + "20/input-pairs-20.txt";
-    GreatWall wall(inputFilePath);
-    wall.readData();
+    TestHelper::requireFileExists(inputFilePath);
 
-    // Check that the list of unsorted bricks has a length of 20
-    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().getEastTravelTable().size(), 20);
+    GreatWall wall(inputFilePath);
+
+    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().size(), 19);
+    BOOST_CHECK_EQUAL(wall.getUnsortedBricks().size(), 19);
 
     // Check that the first brick is "mgR,fYI"
-    const std::string* firstValue = wall.getUnsortedBricks().getEastTravelTable().lookup("mgR");
+    const std::string* firstValue = wall.getUnsortedBricks().lookupEast("mgR");
     BOOST_CHECK(firstValue != nullptr);
     BOOST_CHECK_EQUAL(*firstValue, "fYI");
 
     // Check that a middle brick is "LYd,SXW"
-    const std::string* middleValue = wall.getUnsortedBricks().getEastTravelTable().lookup("LYd");
+    const std::string* middleValue = wall.getUnsortedBricks().lookupWest("SXW");
     BOOST_CHECK(middleValue != nullptr);
-    BOOST_CHECK_EQUAL(*middleValue, "SXW");
+    BOOST_CHECK_EQUAL(*middleValue, "LYd");
 
     // Check that the last brick is "BSC,yxv"
-    const std::string* lastValue = wall.getUnsortedBricks().getEastTravelTable().lookup("BSC");
+    const std::string* lastValue = wall.getUnsortedBricks().lookupEast("BSC");
     BOOST_CHECK(lastValue != nullptr);
     BOOST_CHECK_EQUAL(*lastValue, "yxv");
 
     // Check for non-existent keys
-    const std::string* nonExistentValue = wall.getUnsortedBricks().getEastTravelTable().lookup("nonexistent");
+    const std::string* nonExistentValue = wall.getUnsortedBricks().lookupEast("nonexistent");
     BOOST_CHECK(nonExistentValue == nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(SortBricksTest) {
     const string inputFilePath = testDataFilePath + "20/input-pairs-20.txt";
+    TestHelper::requireFileExists(inputFilePath);
+
     GreatWall wall(inputFilePath);
-    wall.readData();
     wall.sortBricks();
-    wall.getSortedBricks().display(cout);
-    BOOST_ASSERT(false);
-    //BOOST_CHECK_EQUAL(*wall.getSortedBricks().size(), 20);
-    // todo assert that the list of sorted bricks has a length of 20
-    // todo assert that the first brick is XLM
-    // todo assert that the last brick is Ohe
+    wall.displaySortedBricks(cout);
+
+    BOOST_CHECK_EQUAL(wall.getSortedBricks().getSize(), 20);
+
+    BOOST_CHECK_EQUAL(wall.getSortedBricks().getHead()->data, "XLM");
+    BOOST_CHECK_EQUAL(wall.getSortedBricks().getTail()->data, "Ohe");
 }
 
 BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest) {
     const string inputFilePath = testDataFilePath + "1K/input-pairs-1K.txt";
+    const string expectedOutputFilePath = testDataFilePath + "1K/result-sequence-1K.txt";
+
+    TestHelper::requireFileExists(inputFilePath);
+    TestHelper::requireFileExists(expectedOutputFilePath);
+
     GreatWall wall(inputFilePath);
-    wall.readData();
     wall.sortBricks();
 
     stringstream buffer;
     streambuf* oldCout = cout.rdbuf(buffer.rdbuf());
     wall.displaySortedBricks(cout);
     cout.rdbuf(oldCout);
-    BOOST_ASSERT(false);
-    
-    // todo assert that the output is correct
+
+    ifstream expectedFile(expectedOutputFilePath);
+    stringstream expectedOutputStream;
+    expectedOutputStream << expectedFile.rdbuf();
+    expectedFile.close();
+
+    BOOST_CHECK_EQUAL(buffer.str(), expectedOutputStream.str());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

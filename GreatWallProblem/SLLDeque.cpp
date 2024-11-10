@@ -48,3 +48,7 @@ int SLLDeque::getSize() const {
 Node* SLLDeque::getHead() const {
     return head;
 }
+
+Node* SLLDeque::getTail() const {
+    return tail;
+}
