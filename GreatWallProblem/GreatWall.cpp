@@ -59,5 +59,11 @@ void GreatWall::sortBricks() {
 }
 
 void GreatWall::displaySortedBricks(ostream& out) const {
+    if (!sorted) {
+        throw runtime_error("Bricks have not been sorted."); 
+        return;
+    }
     sortedBricks.display(out);
 }
+
+// todo need to think about other validation rules maybe need to implement. 

@@ -3,8 +3,8 @@
 #include "../HashTable.h"
 #include <string>
 
-using namespace std;
-//todo update with n and s
+using namespace std; // todo dual hash table tests.
+
 BOOST_AUTO_TEST_SUITE(HashTableUnitTests)
 
 BOOST_AUTO_TEST_CASE(InsertionTest) {
