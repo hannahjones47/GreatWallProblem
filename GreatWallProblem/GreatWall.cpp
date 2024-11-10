@@ -5,13 +5,11 @@
 
 using namespace std;
 
-GreatWall::GreatWall(const string& filePath) : inputDataPath(filePath) 
-{
+GreatWall::GreatWall(const string& filePath) : inputDataPath(filePath), sorted(false) {
     readData();
 }
 
-void GreatWall::readData() 
-{
+void GreatWall::readData() {
     ifstream inputFile(inputDataPath);
     if (!inputFile.is_open()) 
         throw runtime_error("Unable to open file: " + inputDataPath);
@@ -32,10 +30,11 @@ void GreatWall::readData()
 }
 
 void GreatWall::sortBricks() {
-    if (unsortedBricks.getFirstBucket() == nullptr) throw std::runtime_error("No bricks to sort.");
+    if (sorted) return;
+    if (unsortedBricks.getFirstBucket() == nullptr) throw runtime_error("No bricks to sort.");
 
     Bucket* startBucket = unsortedBricks.getFirstBucket();
-    if (startBucket == nullptr) throw std::runtime_error("HashTable is empty.");
+    if (startBucket == nullptr) throw runtime_error("HashTable is empty.");
 
     string startNorthSymbol = startBucket->key;
     string startSouthSymbol = startBucket->value;
@@ -56,6 +55,8 @@ void GreatWall::sortBricks() {
         sortedBricks.push_front(*nextNorthSymbol);  
         currentSymbol = *nextNorthSymbol; 
     }
+
+    sorted = true;
 }
 
 void GreatWall::displaySortedBricks(ostream& out) const {
