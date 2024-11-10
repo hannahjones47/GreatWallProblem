@@ -44,3 +44,7 @@ void SLLDeque::display(std::ostream& out) const {
 int SLLDeque::getSize() const {
     return size;
 }
+
+Node* SLLDeque::getHead() const {
+    return head;
+}

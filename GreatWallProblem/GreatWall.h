@@ -14,8 +14,7 @@ class GreatWall {
         GreatWall(const std::string& filePath);
 		void readData(); // reads data from the input file into unsorted bricks list
 		void sortBricks(); // sorts the data in the unsorted bricks list and stores it in the sorted bricks list
-		string writeSortedBricksToFile() const; // writes the sorted bricks list to a file and returns the file path
-        void displaySortedBricks() const; // displays the sorted bricks list to the console
+        void displaySortedBricks(ostream&) const; // displays the sorted bricks list to the console
         const DualHashTable& getUnsortedBricks() const { return unsortedBricks; }
         const SLLDeque& getSortedBricks() const { return sortedBricks; }
 };

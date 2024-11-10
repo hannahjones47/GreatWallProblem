@@ -5,8 +5,8 @@
 using namespace std;
 
 struct Bucket {
-    string northSymbol;
-    string southSymbol;
+    string key;
+    string value;
     Bucket *next;
     Bucket(string, string, Bucket* = nullptr);
 };

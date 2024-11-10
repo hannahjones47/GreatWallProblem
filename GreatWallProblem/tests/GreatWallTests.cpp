@@ -16,12 +16,18 @@ void runIntegrationTest(const string testCaseName, const string inputFilePath, c
 
     GreatWall wall(testDataFilePath + inputFilePath);
     wall.sortBricks();
-    string actualOutputFilePath = wall.writeSortedBricksToFile();
-    // todo delete file.
+
+    stringstream actualOutputStream;
+    wall.displaySortedBricks(actualOutputStream);
+
+    ifstream expectedFile(testDataFilePath + expectedOutputFilePath);
+    stringstream expectedOutputStream;
+    expectedOutputStream << expectedFile.rdbuf();
+    expectedFile.close();
 
     BOOST_REQUIRE_MESSAGE(
-        TestHelper::areFileContentsEqual(expectedOutputFilePath, actualOutputFilePath),
-        "The contents of the files do not match for test case: " << testCaseName
+        actualOutputStream.str() == expectedOutputStream.str(),
+        "The contents of the output do not match for test case: " << testCaseName
     );
 }
 
@@ -148,21 +154,11 @@ BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest) {
 
     stringstream buffer;
     streambuf* oldCout = cout.rdbuf(buffer.rdbuf());
-    wall.displaySortedBricks();
+    wall.displaySortedBricks(cout);
     cout.rdbuf(oldCout);
     BOOST_ASSERT(false);
     
     // todo assert that the output is correct
-}
-
-BOOST_AUTO_TEST_CASE(WriteSortedBricksToFileTest) {
-    const string inputFilePath = testDataFilePath + "1K/input-pairs-1K.txt";
-    GreatWall wall(inputFilePath);
-    wall.readData();
-    wall.sortBricks();
-    string outputFilePath = wall.writeSortedBricksToFile();
-    // todo assertions to verify that the file is written correctly
-    TestHelper::requireFileExists(outputFilePath);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

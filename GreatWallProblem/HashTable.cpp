@@ -4,22 +4,22 @@
 
 #define LF_THRESHOLD .7
 
-Bucket::Bucket(string north, string south, Bucket *nextBucket)
-{
-    northSymbol = north;
-    southSymbol = south;
+Bucket::Bucket(string k, string v, Bucket *nextBucket) {
+    key = k;
+    value = v;
     next = nextBucket;
 }
 
-HashTable::HashTable(int capacity)
-{
+HashTable::HashTable(int capacity) : firstBucket_(nullptr) {
     capacity_ = capacity;
     arr_ = new Bucket *[capacity_];
     size_ = 0;
+    for (int i = 0; i < capacity_; i++) {
+        arr_[i] = nullptr; 
+    }
 }
 
-HashTable::~HashTable()
-{
+HashTable::~HashTable() {
     for (int i = 0; i < capacity_; i++)
     {
         Bucket *p = arr_[i];
@@ -33,28 +33,26 @@ HashTable::~HashTable()
     delete[] arr_;
 }
 
-void HashTable::insert(string north, string south) {
+void HashTable::insert(string key, string value) {
     if (loadFactor() > LF_THRESHOLD) {
         rehash();
     }
 
-    unsigned int hashIndex = hash(north);  // Use north symbol to hash
+    unsigned int hashIndex = hash(key);  
     Bucket* p = arr_[hashIndex];
 
     if (p == nullptr) {
-        arr_[hashIndex] = new Bucket(north, south);  
+        arr_[hashIndex] = new Bucket(key, value, nullptr);  
         size_++;
 
-        if (firstBucket_ == nullptr) 
-            firstBucket_ = arr_[hashIndex];
+        if (firstBucket_ == nullptr) firstBucket_ = arr_[hashIndex];
     } else {
         bool inserted = false;
         Bucket* b = nullptr;
 
-        // Traverse the bucket to see if we already have the key
         while (p != nullptr && !inserted) {
-            if (p->northSymbol == north) {
-                p->southSymbol = south;  // Ensure both north and south symbols are set
+            if (p->key == key) {
+                p->value = value; 
                 inserted = true;
             } else {
                 b = p;
@@ -63,7 +61,7 @@ void HashTable::insert(string north, string south) {
         }
 
         if (!inserted) {
-            p = new Bucket(north, south);
+            p = new Bucket(key, value, nullptr);
             b->next = p;
             size_++;
         }
@@ -71,34 +69,30 @@ void HashTable::insert(string north, string south) {
 }
 
 string* HashTable::lookup(string symbol, bool isNorth) const {
-    unsigned int index = hash(symbol);  // Still use north's hash for simplicity
+    unsigned int index = hash(symbol); 
     Bucket* bucket = arr_[index];
 
     while (bucket != nullptr) {
-        // If looking for north, return south, if looking for south, return north
-        if (isNorth && bucket->northSymbol == symbol) {
-            return new string(bucket->southSymbol);  // Return the south symbol
-        } else if (!isNorth && bucket->southSymbol == symbol) {
-            return new string(bucket->northSymbol);  // Return the north symbol
+        if (isNorth && bucket->key == symbol) {
+            return new string(bucket->value); 
+        } else if (!isNorth && bucket->value == symbol) {
+            return new string(bucket->key); 
         }
         bucket = bucket->next;
     }
     return nullptr;
 }
 
-unsigned int HashTable::size() const
-{
+unsigned int HashTable::size() const {
     return size_;
 }
 
-unsigned int HashTable::hash(string key) const
-{
+unsigned int HashTable::hash(string key) const {
     std::hash<string> hasher;
     return hasher(key) % capacity_;
 }
 
-float HashTable::loadFactor() const 
-{
+float HashTable::loadFactor() const {
     return static_cast<float>(size_) / static_cast<float>(capacity_);
 }
 
@@ -107,18 +101,21 @@ void HashTable::rehash() {
     capacity_ *= 2;
     Bucket** oldArr = arr_;
     arr_ = new Bucket*[capacity_];
-    for (int i = 0; i < capacity_; ++i) {
+    for (int i = 0; i < capacity_; ++i) 
+    {
         arr_[i] = nullptr;
     }
 
-    size_ = 0;
-    for (int i = 0; i < oldCapacity; ++i) {
+    for (int i = 0; i < oldCapacity; ++i) 
+    {
         Bucket* entry = oldArr[i];
         while (entry != nullptr) {
-            insert(entry->northSymbol, entry->southSymbol);
-            Bucket* prev = entry;
-            entry = entry->next;
-            delete prev;
+            Bucket* nextEntry = entry->next;  
+            unsigned int newHashIndex = hash(entry->key);
+            entry->next = arr_[newHashIndex];
+            arr_[newHashIndex] = entry;
+
+            entry = nextEntry;
         }
     }
     delete[] oldArr;
@@ -126,10 +123,14 @@ void HashTable::rehash() {
 
 void HashTable::display() const {
     for (int i = 0; i < capacity_; ++i) {
-        Bucket* entry = arr_[i];
-        while (entry != nullptr) {
-            cout << "North: " << entry->northSymbol << ", South: " << entry->southSymbol << endl;
-            entry = entry->next;
+        if (arr_[i] != nullptr) {
+            std::cout << "Index " << i << ": ";
+            Bucket* entry = arr_[i];
+            while (entry != nullptr) {
+                std::cout << "[North: " << entry->key << ", South: " << entry->value << "] ";
+                entry = entry->next;
+            }
+            std::cout << std::endl;
         }
     }
 }

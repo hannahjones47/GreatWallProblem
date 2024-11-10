@@ -38,8 +38,8 @@ void GreatWall::sortBricks() {
     Bucket* startBucket = unsortedBricks.getFirstBucket();
     if (startBucket == nullptr) throw std::runtime_error("HashTable is empty.");
 
-    string startNorthSymbol = startBucket->northSymbol;
-    string startSouthSymbol = startBucket->southSymbol;
+    string startNorthSymbol = startBucket->key;
+    string startSouthSymbol = startBucket->value;
 
     // Step 2: Eastward Traversal (use the eastTravelTable)
     sortedBricks.push_back(startNorthSymbol);  // Start by adding the north symbol
@@ -76,13 +76,6 @@ void GreatWall::sortBricks() {
     }
 }
 
-void GreatWall::displaySortedBricks() const {
-    // Display all the sorted bricks in the list
-    sortedBricks.display(cout);
-}
-
-string GreatWall::writeSortedBricksToFile() const 
-{
-    // todo
-    return "";
+void GreatWall::displaySortedBricks(ostream& out) const {
+    sortedBricks.display(out);
 }
