@@ -44,6 +44,8 @@ void HashTable::insert(string key, string value)
     {
         arr_[hashIndex] = new Bucket(key, value);
         size_++;
+
+        if (firstBucket_ == nullptr) firstBucket_ = arr_[hashIndex];
     }
     else
     {
@@ -130,4 +132,8 @@ void HashTable::display() const {
             entry = entry->next;
         }
     }
+}
+
+Bucket* HashTable::getFirstBucket() const { 
+    return firstBucket_; 
 }

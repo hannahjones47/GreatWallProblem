@@ -30,9 +30,9 @@ void GreatWall::readData()
 
     inputFile.close();
 }
-void GreatWall::sortBricks() 
-{
-    // todo
+
+void GreatWall::sortBricks() {
+    
 }
 
 void GreatWall::displaySortedBricks() const 

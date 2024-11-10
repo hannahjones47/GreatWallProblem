@@ -14,11 +14,12 @@ struct Bucket {
 class HashTable {
   private:
     Bucket** arr_;
+    Bucket* firstBucket_;
     unsigned int capacity_;
     unsigned int size_;
     unsigned int hash(string) const;
     void rehash();
-  
+    
   public:
     HashTable(int = 10);
     ~HashTable();
@@ -27,6 +28,7 @@ class HashTable {
     unsigned int size() const;
     float loadFactor() const;
     void display() const; 
+    Bucket* getFirstBucket() const;
 };
 
 #endif // HASHTABLE_H

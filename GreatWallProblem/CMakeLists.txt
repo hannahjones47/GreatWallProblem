@@ -13,12 +13,15 @@ if(Boost_FOUND)
     add_executable(doTests 
         tests/GreatWallTests.cpp 
         tests/HashTableTests.cpp
+        tests/SLLDequeTests.cpp
         tests/TestHelper.h
         tests/TestHelper.cpp
         GreatWall.h
         GreatWall.cpp
         HashTable.h
-        HashTable.cpp)
+        HashTable.cpp
+        SLLDeque.h
+        SLLDeque.cpp)
 
     target_link_libraries(doTests Boost::unit_test_framework)
 endif()
@@ -28,4 +31,6 @@ add_executable(main
     GreatWall.h
     GreatWall.cpp
     HashTable.h
-    HashTable.cpp)
+    HashTable.cpp
+    SLLDeque.h
+    SLLDeque.cpp)

@@ -1,13 +1,14 @@
 #include <string>
 #include <vector>
 #include "HashTable.h"
+#include "SLLDeque.h"
 using namespace std;
 
 class GreatWall {
     private:
 		string inputDataPath;
         HashTable unsortedBricks; // container for unsorted bricks 
-        // container for sorted bricks;
+        SLLDeque sortedBricks;    // container for sorted bricks;
 
     public:
         GreatWall(const std::string& filePath);
