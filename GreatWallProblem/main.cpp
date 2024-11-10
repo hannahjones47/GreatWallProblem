@@ -5,15 +5,16 @@
 
 using namespace std;
 
-int main() {
-    cout << "Hello, World!" << endl;
+int main(int argc, char* argv[]) {
+    
+    if (argc != 2) {
+        cerr << "Usage: " << argv[0] << " <file_path>" << endl;
+        return 1;
+    }
 
-    GreatWall wall("/Users/hannahjones/Git/GreatWallProblem/GreatWallProblem/GreatWallProblem/tests/TestData/20/input-pairs-20.txt"); // todo pass by console param
-    cout << "Unsorted: " << endl;
-    wall.getUnsortedBricks().display();
+    string filePath = argv[1];
+    GreatWall wall(filePath);
     wall.sortBricks();
-    cout << "Sorted: " << endl;
-    wall.getSortedBricks().display(cout);
-    cout << "Goodbye, World!" << endl;
+    wall.displaySortedBricks(cout);
     return 0;
 }
