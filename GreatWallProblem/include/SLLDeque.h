@@ -1,29 +1,26 @@
-// SLLDeque.h
 #ifndef SLLDEQUE_H
 #define SLLDEQUE_H
-
 #include <string>
+using namespace std;
 
 struct Node {
-    std::string data;
-    Node* next;
-
-    Node(const std::string& text) : data(text), next(nullptr) {}
+  string data;
+  Node* next;
+  Node(const string& text) : data(text), next(nullptr) {}
 };
 
 class SLLDeque {
-public:
+  public:
     SLLDeque();                   
     ~SLLDeque();                
-
-    void push_front(const std::string& text); 
-    void push_back(const std::string& text);  
-    void display(std::ostream& out) const;
+    void push_front(const string& text); 
+    void push_back(const string& text);  
+    void display(ostream& out) const;
     int getSize() const;
     Node* getHead() const;
     Node* getTail() const;
 
-private:
+  private:
     int size;
     Node* head; 
     Node* tail; 

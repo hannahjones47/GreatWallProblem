@@ -1,7 +1,7 @@
-#include "HashTable.h"
+#include "../include/HashTable.h"
 #include <iostream>
 #include <functional> 
-
+using namespace std;
 #define LF_THRESHOLD .7
 
 Bucket::Bucket(string k, string v, Bucket *nextBucket) {
@@ -122,13 +122,13 @@ void HashTable::rehash() {
 void HashTable::display() const {
     for (int i = 0; i < capacity_; ++i) {
         if (arr_[i] != nullptr) {
-            std::cout << "Index " << i << ": ";
+            cout << "Index " << i << ": ";
             Bucket* entry = arr_[i];
             while (entry != nullptr) {
-                std::cout << "[North: " << entry->key << ", South: " << entry->value << "] ";
+                cout << "[North: " << entry->key << ", South: " << entry->value << "] ";
                 entry = entry->next;
             }
-            std::cout << std::endl;
+            cout << endl;
         }
     }
 }

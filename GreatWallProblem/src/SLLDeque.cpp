@@ -1,5 +1,6 @@
-#include "SLLDeque.h"
+#include "../include/SLLDeque.h"
 #include <iostream>
+using namespace std;
 
 SLLDeque::SLLDeque() : head(nullptr), tail(nullptr), size(0) {}
 
@@ -11,7 +12,7 @@ SLLDeque::~SLLDeque() {
     }
 }
 
-void SLLDeque::push_front(const std::string& text) {
+void SLLDeque::push_front(const string& text) {
     Node* newNode = new Node(text);
     if (!head) {
         head = tail = newNode;  
@@ -22,7 +23,7 @@ void SLLDeque::push_front(const std::string& text) {
     size++;
 }
 
-void SLLDeque::push_back(const std::string& text) {
+void SLLDeque::push_back(const string& text) {
     Node* newNode = new Node(text);
     if (!tail) {
         head = tail = newNode;  
@@ -33,7 +34,7 @@ void SLLDeque::push_back(const std::string& text) {
     size++;
 }
 
-void SLLDeque::display(std::ostream& out) const {
+void SLLDeque::display(ostream& out) const {
     Node* current = head;
     while (current) {
         out << current->data << "\n";

@@ -1,14 +1,13 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
-
 #include <string>
 using namespace std;
 
 struct Bucket {
-    string key;
-    string value;
-    Bucket *next;
-    Bucket(string, string, Bucket* = nullptr);
+  string key;
+  string value;
+  Bucket *next;
+  Bucket(string, string, Bucket* = nullptr);
 };
 
 class HashTable {
