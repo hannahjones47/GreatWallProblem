@@ -1,6 +1,10 @@
 #include "TestHelper.h"
+#include "../include/GreatWall.h"
 #include <fstream>
 #include <boost/test/unit_test.hpp>
+using namespace std;
+
+const string TestHelper::testDataFilePath = filesystem::path(__FILE__).parent_path().parent_path().string() + "/tests/TestData/";
 
 void TestHelper::requireFileExists(const string& filePath) {
     ifstream file(filePath);
@@ -8,16 +12,25 @@ void TestHelper::requireFileExists(const string& filePath) {
     file.close();
 }
 
-bool TestHelper::areFileContentsEqual(const string& filePath1, const string& filePath2) {
-    ifstream file1(filePath1);
-    ifstream file2(filePath2);
+void TestHelper::runIntegrationTest(const string testCaseName, const string inputFilePath, const string expectedOutputFilePath) {
+    cout << "Running test case: " << testCaseName << endl;
 
-    string line1, line2;
-    while (getline(file1, line1) && getline(file2, line2)) {
-        if (line1 != line2) {
-            return false;
-        }
-    }
+    TestHelper::requireFileExists(testDataFilePath + inputFilePath);
+    TestHelper::requireFileExists(testDataFilePath + expectedOutputFilePath);
 
-    return file1.eof() && file2.eof();
+    GreatWall wall(testDataFilePath + inputFilePath);
+    wall.sortBricks();
+
+    stringstream actualOutputStream;
+    wall.displaySortedBricks(actualOutputStream);
+
+    ifstream expectedFile(testDataFilePath + expectedOutputFilePath);
+    stringstream expectedOutputStream;
+    expectedOutputStream << expectedFile.rdbuf();
+    expectedFile.close();
+
+    BOOST_REQUIRE_MESSAGE(
+        actualOutputStream.str() == expectedOutputStream.str(),
+        "The contents of the output do not match for test case: " << testCaseName
+    );
 }

@@ -1,6 +1,6 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
-#include "../HashTable.h"
+#include "../include/HashTable.h"
 #include <string>
 
 using namespace std; // todo dual hash table tests.

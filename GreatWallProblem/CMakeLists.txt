@@ -16,25 +16,25 @@ if(Boost_FOUND)
         tests/SLLDequeTests.cpp
         tests/TestHelper.h
         tests/TestHelper.cpp
-        GreatWall.h
-        GreatWall.cpp
-        HashTable.h
-        HashTable.cpp
-        DualHashTable.h
-        DualHashTable.cpp
-        SLLDeque.h
-        SLLDeque.cpp)
+        include/GreatWall.h
+        src/GreatWall.cpp
+        include/HashTable.h
+        src/HashTable.cpp
+        include/DoubleHashTable.h
+        src/DoubleHashTable.cpp
+        include/SLLDeque.h
+        src/SLLDeque.cpp)
 
     target_link_libraries(doTests Boost::unit_test_framework)
 endif()
 
 add_executable(main 
-    main.cpp
-    GreatWall.h
-    GreatWall.cpp
-    HashTable.h
-    HashTable.cpp
-    DualHashTable.h
-    DualHashTable.cpp
-    SLLDeque.h
-    SLLDeque.cpp)
+    src/main.cpp
+    include/GreatWall.h
+    src/GreatWall.cpp
+    include/HashTable.h
+    src/HashTable.cpp
+    include/DoubleHashTable.h
+    src/DoubleHashTable.cpp
+    include/SLLDeque.h
+    src/SLLDeque.cpp)
