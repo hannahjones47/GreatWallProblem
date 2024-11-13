@@ -13,6 +13,7 @@ if(Boost_FOUND)
     add_executable(doTests 
         tests/GreatWallTests.cpp 
         tests/HashTableTests.cpp
+        tests/DoubleHashTableTests.cpp
         tests/SLLDequeTests.cpp
         tests/TestHelper.h
         tests/TestHelper.cpp
