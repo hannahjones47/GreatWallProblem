@@ -15,6 +15,12 @@ void TestHelper::requireFileExists(const string& filePath) {
     file.close();
 }
 
+long getMemoryUsage() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    return usage.ru_maxrss; 
+}
+
 void TestHelper::runIntegrationTest(const string testCaseName, const string inputFilePath, const string expectedOutputFilePath) {
     cout << "Running test case: " << testCaseName << endl;
    
@@ -22,6 +28,7 @@ void TestHelper::runIntegrationTest(const string testCaseName, const string inpu
     TestHelper::requireFileExists(testDataFilePath + expectedOutputFilePath);
 
     steady_clock::time_point startTime = steady_clock::now();
+    long memoryBefore = getMemoryUsage();
 
     GreatWall wall(testDataFilePath + inputFilePath);
     wall.sortBricks();
@@ -31,7 +38,10 @@ void TestHelper::runIntegrationTest(const string testCaseName, const string inpu
 
     steady_clock::time_point finishTime = steady_clock::now();
     nanoseconds timeTaken = duration_cast<nanoseconds>(finishTime - startTime);
-    cout << "Test case: " << testCaseName << " took " << timeTaken.count() << " nanoseconds." << endl;
+    long memoryAfter = getMemoryUsage();
+    long memoryUsed = memoryAfter - memoryBefore;
+    cout << "> Test case: " << testCaseName << " took " << timeTaken.count() << " nanoseconds." << endl;
+    cout << "> Test case: " << testCaseName << " used " << memoryUsed << " kilobytes." << endl;
 
     ifstream expectedFile(testDataFilePath + expectedOutputFilePath);
     stringstream expectedOutputStream;
@@ -43,3 +53,4 @@ void TestHelper::runIntegrationTest(const string testCaseName, const string inpu
         "The contents of the output do not match for test case: " << testCaseName
     );
 }
+
