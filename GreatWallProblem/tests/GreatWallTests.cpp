@@ -111,7 +111,6 @@ BOOST_AUTO_TEST_CASE(SortBricksTest) {
 
     GreatWall wall(inputFilePath);
     wall.sortBricks();
-    wall.displaySortedBricks(cout);
 
     BOOST_CHECK_EQUAL(wall.getSortedBricks().getSize(), 20);
 
