@@ -29,10 +29,9 @@ void GreatWall::readData() {
 
 void GreatWall::sortBricks() {
     if (sorted) return;
-    if (unsortedBricks.getFirstBucket() == nullptr) throw runtime_error("No bricks to sort.");
 
     Bucket* startBucket = unsortedBricks.getFirstBucket();
-    if (startBucket == nullptr) throw runtime_error("HashTable is empty.");
+    if (startBucket == nullptr) throw runtime_error("No bricks to sort.");
 
     string startNorthSymbol = startBucket->key;
     string startSouthSymbol = startBucket->value;
