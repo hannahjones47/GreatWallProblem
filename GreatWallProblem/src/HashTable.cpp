@@ -11,6 +11,7 @@ Bucket::Bucket(string k, string v, Bucket *nextBucket) {
 }
 
 HashTable::HashTable(int capacity) : firstBucket_(nullptr) {
+    if (capacity <= 0) throw invalid_argument("Capacity must be greater than 0.");
     capacity_ = capacity;
     arr_ = new Bucket *[capacity_];
     size_ = 0;
@@ -20,11 +21,9 @@ HashTable::HashTable(int capacity) : firstBucket_(nullptr) {
 }
 
 HashTable::~HashTable() {
-    for (int i = 0; i < capacity_; i++)
-    {
+    for (int i = 0; i < capacity_; i++) {
         Bucket *p = arr_[i];
-        while (p != nullptr)
-        {
+        while (p != nullptr) {
             Bucket *t = p;
             p = p->next;
             delete t;
@@ -34,6 +33,8 @@ HashTable::~HashTable() {
 }
 
 void HashTable::insert(string key, string value) {
+    if (key.empty() || value.empty()) throw invalid_argument("Key and value must be non-empty.");
+
     if (loadFactor() > LF_THRESHOLD) {
         rehash();
     }
@@ -43,6 +44,7 @@ void HashTable::insert(string key, string value) {
 
     if (p == nullptr) {
         arr_[hashIndex] = new Bucket(key, value, nullptr);  
+        if (!arr_[hashIndex]) throw bad_alloc();
         size_++;
 
         if (firstBucket_ == nullptr) firstBucket_ = arr_[hashIndex];
@@ -61,7 +63,8 @@ void HashTable::insert(string key, string value) {
         }
 
         if (!inserted) {
-            p = new Bucket(key, value, nullptr);
+            p = new Bucket(key, value, nullptr);            
+            if (!p) throw bad_alloc();
             b->next = p;
             size_++;
         }
@@ -69,6 +72,8 @@ void HashTable::insert(string key, string value) {
 }
 
 string* HashTable::lookup(string symbol) const {
+    if (symbol.empty()) throw invalid_argument("Symbol must be non-empty.");
+
     unsigned int index = hash(symbol); 
     Bucket* bucket = arr_[index];
 
@@ -99,13 +104,13 @@ void HashTable::rehash() {
     capacity_ *= 2;
     Bucket** oldArr = arr_;
     arr_ = new Bucket*[capacity_];
-    for (int i = 0; i < capacity_; ++i) 
-    {
+    if (!arr_) throw bad_alloc();
+
+    for (int i = 0; i < capacity_; ++i) {
         arr_[i] = nullptr;
     }
 
-    for (int i = 0; i < oldCapacity; ++i) 
-    {
+    for (int i = 0; i < oldCapacity; ++i) {
         Bucket* entry = oldArr[i];
         while (entry != nullptr) {
             Bucket* nextEntry = entry->next;  
@@ -119,16 +124,16 @@ void HashTable::rehash() {
     delete[] oldArr;
 }
 
-void HashTable::display() const {
+void HashTable::display(ostream& out) const {
     for (int i = 0; i < capacity_; ++i) {
         if (arr_[i] != nullptr) {
-            cout << "Index " << i << ": ";
+            out << "Index " << i << ": ";
             Bucket* entry = arr_[i];
             while (entry != nullptr) {
-                cout << "[North: " << entry->key << ", South: " << entry->value << "] ";
+                out << "[North: " << entry->key << ", South: " << entry->value << "] ";
                 entry = entry->next;
             }
-            cout << endl;
+            out << endl;
         }
     }
 }

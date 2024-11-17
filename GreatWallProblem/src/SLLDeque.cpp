@@ -2,40 +2,44 @@
 #include <iostream>
 using namespace std;
 
-SLLDeque::SLLDeque() : head(nullptr), tail(nullptr), size(0) {}
+SLLDeque::SLLDeque() : head_(nullptr), tail_(nullptr), size_(0) {}
 
 SLLDeque::~SLLDeque() {
-    while (head) {
-        Node* temp = head;
-        head = head->next;
+    while (head_) {
+        Node* temp = head_;
+        head_ = head_->next;
         delete temp;
     }
 }
 
 void SLLDeque::push_front(const string& text) {
+    if (text.empty()) throw invalid_argument("Text must be non-empty.");
+
     Node* newNode = new Node(text);
-    if (!head) {
-        head = tail = newNode;  
+    if (!head_) {
+        head_ = tail_ = newNode;  
     } else {
-        newNode->next = head;
-        head = newNode;
+        newNode->next = head_;
+        head_ = newNode;
     }
-    size++;
+    size_++;
 }
 
 void SLLDeque::push_back(const string& text) {
+    if (text.empty()) throw invalid_argument("Text must be non-empty.");
+
     Node* newNode = new Node(text);
-    if (!tail) {
-        head = tail = newNode;  
+    if (!tail_) {
+        head_ = tail_ = newNode;  
     } else {
-        tail->next = newNode;
-        tail = newNode;
+        tail_->next = newNode;
+        tail_ = newNode;
     }
-    size++;
+    size_++;
 }
 
 void SLLDeque::display(ostream& out) const {
-    Node* current = head;
+    Node* current = head_;
     while (current) {
         out << current->data << "\n";
         current = current->next;
@@ -43,13 +47,13 @@ void SLLDeque::display(ostream& out) const {
 }
 
 int SLLDeque::getSize() const {
-    return size;
+    return size_;
 }
 
 Node* SLLDeque::getHead() const {
-    return head;
+    return head_;
 }
 
 Node* SLLDeque::getTail() const {
-    return tail;
+    return tail_;
 }

@@ -4,16 +4,17 @@
 #include <iostream>
 using namespace std;
 
-GreatWall::GreatWall(const string& filePath) : inputDataPath(filePath), sorted(false) {
+GreatWall::GreatWall(const string& filePath) : inputDataPath_(filePath), sorted_(false) {
     readData();
 }
 
 void GreatWall::readData() {
-    ifstream inputFile(inputDataPath);
+    ifstream inputFile(inputDataPath_);
 
-    if (!inputFile.is_open()) throw runtime_error("Unable to open file: " + inputDataPath);
+    if (!inputFile.is_open()) throw runtime_error("Unable to open file: " + inputDataPath_);
     
     string line;
+    bool hasData = false;
     while (getline(inputFile, line)) 
     {
         size_t commaPosition = line.find(',');
@@ -21,47 +22,48 @@ void GreatWall::readData() {
         
         string north = line.substr(0, commaPosition);
         string south = line.substr(commaPosition + 1);
-        unsortedBricks.insert(north, south);         
+        unsortedBricks_.insert(north, south);       
+        hasData = true;  
     }
 
     inputFile.close();
+
+    if (!hasData) throw runtime_error("Input file is empty: " + inputDataPath_);
 }
 
 void GreatWall::sortBricks() {
-    if (sorted) return;
+    if (sorted_) return;
 
-    Bucket* startBucket = unsortedBricks.getFirstBucket();
+    Bucket* startBucket = unsortedBricks_.getFirstBucket();
     if (startBucket == nullptr) throw runtime_error("No bricks to sort.");
 
     string startNorthSymbol = startBucket->key;
     string startSouthSymbol = startBucket->value;
 
-    sortedBricks.push_back(startNorthSymbol);  
-    sortedBricks.push_back(startSouthSymbol);  
+    sortedBricks_.push_back(startNorthSymbol);  
+    sortedBricks_.push_back(startSouthSymbol);  
 
     string currentSymbol = startSouthSymbol;
     
-    while (string* nextSouthSymbol = unsortedBricks.lookupEast(currentSymbol)) {
-        sortedBricks.push_back(*nextSouthSymbol);  
+    while (string* nextSouthSymbol = unsortedBricks_.lookupEast(currentSymbol)) {
+        sortedBricks_.push_back(*nextSouthSymbol);  
         currentSymbol = *nextSouthSymbol; 
     }
 
     currentSymbol = startNorthSymbol; 
 
-    while (string* nextNorthSymbol = unsortedBricks.lookupWest(currentSymbol)) {
-        sortedBricks.push_front(*nextNorthSymbol);  
+    while (string* nextNorthSymbol = unsortedBricks_.lookupWest(currentSymbol)) {
+        sortedBricks_.push_front(*nextNorthSymbol);  
         currentSymbol = *nextNorthSymbol; 
     }
 
-    sorted = true;
+    sorted_ = true;
 }
 
 void GreatWall::displaySortedBricks(ostream& out) const {
-    if (!sorted) {
+    if (!sorted_) {
         throw runtime_error("Bricks have not been sorted."); 
         return;
     }
-    sortedBricks.display(out);
+    sortedBricks_.display(out);
 }
-
-// todo need to think about other validation rules maybe need to implement. 

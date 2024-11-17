@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(UnitTests)
 
-BOOST_AUTO_TEST_CASE(ReadDataTest) {
+BOOST_AUTO_TEST_CASE(ReadDataTest_Valid) {
     const string inputFilePath = TestHelper::testDataFilePath + "20/input-pairs-20.txt";
     TestHelper::requireFileExists(inputFilePath);
 
@@ -105,7 +105,19 @@ BOOST_AUTO_TEST_CASE(ReadDataTest) {
     BOOST_CHECK(nonExistentValue == nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(SortBricksTest) {
+BOOST_AUTO_TEST_CASE(ReadDataTest_Invalid_NonExistentFile) {
+    BOOST_CHECK_THROW(GreatWall wall("non-existent-file.txt"), runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(ReadDataTest_Invalid_EmptyFile) {
+    BOOST_CHECK_THROW(GreatWall wall("InvalidInputFiles/empty.txt"), runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(ReadDataTest_Invalid_InvalidFormat) {
+    BOOST_CHECK_THROW(GreatWall wall("InvalidInputFiles/invalid-format.txt"), runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(SortBricksTest_Valid) {
     const string inputFilePath = TestHelper::testDataFilePath + "20/input-pairs-20.txt";
     TestHelper::requireFileExists(inputFilePath);
 
@@ -118,7 +130,7 @@ BOOST_AUTO_TEST_CASE(SortBricksTest) {
     BOOST_CHECK_EQUAL(wall.getSortedBricks().getTail()->data, "Ohe");
 }
 
-BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest) {
+BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest_Valid) {
     const string inputFilePath = TestHelper::testDataFilePath + "1K/input-pairs-1K.txt";
     const string expectedOutputFilePath = TestHelper::testDataFilePath + "1K/result-sequence-1K.txt";
 
@@ -139,6 +151,14 @@ BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest) {
     expectedFile.close();
 
     BOOST_CHECK_EQUAL(buffer.str(), expectedOutputStream.str());
+}
+
+BOOST_AUTO_TEST_CASE(DisplaySortedBricksTest_Invalid_NotSorted) {
+    const string inputFilePath = TestHelper::testDataFilePath + "1K/input-pairs-1K.txt";
+
+    GreatWall wall(inputFilePath);
+    stringstream buffer;
+    BOOST_CHECK_THROW(wall.displaySortedBricks(buffer), runtime_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
