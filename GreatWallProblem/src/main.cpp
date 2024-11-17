@@ -14,5 +14,6 @@ int main(int argc, char* argv[]) {
     GreatWall wall(filePath);
     wall.sortBricks();
     wall.displaySortedBricks(cout);
+    
     return 0;
 }

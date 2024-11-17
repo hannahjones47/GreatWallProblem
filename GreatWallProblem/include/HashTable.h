@@ -26,7 +26,7 @@ class HashTable {
     string* lookup(string) const;
     unsigned int size() const;
     float loadFactor() const;
-    void display() const; 
+    void display(ostream& out) const; 
     Bucket* getFirstBucket() const;
 };
 

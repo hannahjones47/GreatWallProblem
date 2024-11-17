@@ -1,6 +1,5 @@
 #ifndef DOUBLEHASHTABLE_H
 #define DOUBLEHASHTABLE_H
-
 #include "HashTable.h"
 #include <deque>
 #include <stdexcept>
@@ -14,13 +13,13 @@ class DoubleHashTable {
     string* lookupWest(const string& south) const;
     Bucket* getFirstBucket() const;
     int size() const;
-    void display() const;
-    HashTable getEastTravelTable() const { return eastTravelTable; }
-    HashTable getWestTravelTable() const { return westTravelTable; }
+    void display(ostream& out) const;
+    HashTable getEastTravelTable() const { return eastTravelTable_; }
+    HashTable getWestTravelTable() const { return westTravelTable_; }
 
   private:
-    HashTable eastTravelTable;  // for eastward travel (north -> south)
-    HashTable westTravelTable;  // for westward travel (south -> north)
+    HashTable eastTravelTable_;  // for eastward travel (north -> south)
+    HashTable westTravelTable_;  // for westward travel (south -> north)
     int size_;
 
 };

@@ -77,9 +77,7 @@ BOOST_AUTO_TEST_CASE(DisplayTest) {
     table.insert("north2", "south2");
 
     stringstream buffer;
-    streambuf* oldCout = cout.rdbuf(buffer.rdbuf());
-    table.display();
-    cout.rdbuf(oldCout);
+    table.display(buffer);
 
     string output = buffer.str();
     BOOST_CHECK(output.find("[North: north1, South: south1]") != string::npos);

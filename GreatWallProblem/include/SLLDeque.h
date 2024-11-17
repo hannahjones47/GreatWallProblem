@@ -21,9 +21,9 @@ class SLLDeque {
     Node* getTail() const;
 
   private:
-    int size;
-    Node* head; 
-    Node* tail; 
+    int size_;
+    Node* head_; 
+    Node* tail_; 
 };
 
 #endif // SLLDEQUE_H
