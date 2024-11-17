@@ -7,7 +7,7 @@ using chrono::steady_clock;
 using chrono::nanoseconds;
 using chrono::duration_cast;
 
-const string TestHelper::testDataFilePath = filesystem::path(__FILE__).parent_path().parent_path().string() + "/tests/TestData/";
+const string TestHelper::testDataFilePath = "tests/TestData/";
 
 void TestHelper::requireFileExists(const string& filePath) {
     ifstream file(filePath);
