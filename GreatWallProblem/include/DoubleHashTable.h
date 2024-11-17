@@ -1,8 +1,6 @@
 #ifndef DOUBLEHASHTABLE_H
 #define DOUBLEHASHTABLE_H
 #include "HashTable.h"
-#include <deque>
-#include <stdexcept>
 #include <string>
 
 class DoubleHashTable {

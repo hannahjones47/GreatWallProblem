@@ -1,7 +1,6 @@
 #ifndef TESTHELPER_H
 #define TESTHELPER_H
 #include <string>
-#include <vector>
 using namespace std;
 
 class TestHelper {
