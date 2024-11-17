@@ -1,5 +1,4 @@
 #include <string>
-#include <vector>
 #include "DoubleHashTable.h"
 #include "SLLDeque.h"
 using namespace std;
